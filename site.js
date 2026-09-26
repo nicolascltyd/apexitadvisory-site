@@ -42,19 +42,51 @@ if (burger) {
   );
 }
 
-// 4. Formulaire : composition d'un email (sans backend)
+// 4. Formulaire : envoi via Web3Forms (sans backend)
 const form = document.getElementById('contactForm');
 if (form) {
-  form.addEventListener('submit', (e) => {
+  const ok = document.getElementById('formOk');
+  const btn = form.querySelector('button[type="submit"]');
+  const DEST = 'nicolas@apexitadvisory.fr';
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    const nom = encodeURIComponent(form.nom.value.trim());
-    const email = encodeURIComponent(form.email.value.trim());
-    const message = encodeURIComponent(form.message.value.trim());
-    const sujet = encodeURIComponent('Demande de diagnostic — ' + form.nom.value.trim());
-    const corps = `Nom : ${decodeURIComponent(nom)}%0D%0AEmail : ${decodeURIComponent(email)}%0D%0A%0D%0A${decodeURIComponent(message)}`;
-    const ok = document.getElementById('formOk');
-    if (ok) ok.style.display = 'block';
-    window.location.href = `mailto:nicolas@apexitadvisory.fr?subject=${sujet}&body=${corps}`;
+    if (form.botcheck && form.botcheck.checked) return;
+
+    const nom = form.nom.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+    const sujet = 'Demande de diagnostic — ' + nom;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: 'a9373f1d-249f-4679-a495-01262fc13f23',
+          subject: sujet,
+          from_name: 'Site Apex IT Advisory',
+          name: nom,
+          email: email,
+          replyto: email,
+          message: message
+        })
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+      ok.textContent = 'Merci, votre demande a bien été envoyée. Je reviens vers vous rapidement.';
+      ok.style.display = 'block';
+      form.reset();
+    } catch (err) {
+      const href = 'mailto:' + DEST +
+        '?subject=' + encodeURIComponent(sujet) +
+        '&body=' + encodeURIComponent('Nom : ' + nom + '\r\nEmail : ' + email + '\r\n\r\n' + message);
+      ok.innerHTML = 'L\'envoi a échoué. Vous pouvez écrire directement à <a href="' + href + '">' + DEST + '</a>.';
+      ok.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+    }
   });
 }

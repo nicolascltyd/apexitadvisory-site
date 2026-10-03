@@ -147,6 +147,14 @@ html { scroll-behavior: smooth; }
 .av-card p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
 .av-card .wk { margin-top: 14px; font-size: 12px; font-weight: 600; color: var(--jade); letter-spacing: .02em; }
 
+/* bloc Accompagnement : variante de la grappe (titre, description, clôture) */
+.offer-cluster--accomp .offer-cluster__label { margin-bottom: 14px; }
+.offer-cluster__title { font-size: clamp(26px, 3vw, 36px); margin: 0 0 12px; }
+.offer-cluster__desc { color: var(--ink-soft); font-size: 16px; line-height: 1.6; max-width: 70ch; margin: 0 0 26px; }
+.offer-cluster__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; margin-top: 24px; }
+.offer-cluster__note { color: var(--ink-soft); font-size: 14.5px; }
+.offer-cluster--accomp .av-card h4 { margin-top: 0; }
+
 .offers__cta { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
 .offers__cta .note { color: var(--ink-soft); font-size: 14.5px; }
 

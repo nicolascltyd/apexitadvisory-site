@@ -147,6 +147,12 @@ html { scroll-behavior: smooth; }
 .av-card p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
 .av-card .wk { margin-top: 14px; font-size: 12px; font-weight: 600; color: var(--jade); letter-spacing: .02em; }
 
+/* Offre 01 : carte entière cliquable vers #contact (lien étiré) + second lien indépendant */
+.offer--stretch { position: relative; }
+.link-arrow--stretch::after { content: ""; position: absolute; inset: 0; }
+.link-arrow--quiet { position: relative; z-index: 1; display: flex; width: fit-content; margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--ink-soft); transition: color .25s var(--ease); }
+.link-arrow--quiet:hover { color: var(--jade); }
+
 /* bloc Accompagnement : variante de la grappe (titre, description, clôture) */
 .offer-cluster--accomp .offer-cluster__label { margin-bottom: 14px; }
 .offer-cluster__title { font-size: clamp(26px, 3vw, 36px); margin: 0 0 12px; }
